@@ -22,7 +22,6 @@
     };
 
 
-
     ContextLayer.prototype.iteration = 0;
 
     /*
@@ -50,8 +49,6 @@
     };
 
 
-
-
     /*
      *
      */
@@ -71,7 +68,6 @@
         }
 
     };
-
 
 
     /*
@@ -113,18 +109,17 @@
 
     setInterval(function(){
 
-        // clear the canvas
         var widthCanvas  = context.canvas.width;
         var heightCanvas = context.canvas.height;
 
         context.clearRect(0, 0, widthCanvas, heightCanvas);
 
-        for ( var i = 0, l = contexts.length; i < l; ++i ){
-            contexts[ i ].iteration++;
+        for (var i=0, l=contexts.length; i<l; ++i){
+            contexts[i].iteration++;
             var layer = contexts[ i ];
-            layer.angleIndex += layer.options.speed; // updates state
-            layer.rotateCanvas(); // renders
+            layer.angleIndex += layer.options.speed;
+            layer.rotateCanvas();
         }
 
-    }, 1000 / 60  ); // fps
+    }, 1000/60);
 
