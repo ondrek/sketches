@@ -1,6 +1,23 @@
+(function(){
 
 
     "use strict";
+
+
+    window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            function( callback ){ window.setTimeout(callback, 1000 / 60); };
+    })();
+
+
+    /*
+     *
+     */
+    var allContexts = [];
+    var canvasElement = document.getElementById("b");
+    var context = canvasElement.getContext("2d");
 
 
     /*
@@ -8,43 +25,48 @@
      */
     var ContextLayer = function(options){
 
-        contexts.push( this );
+        // create an reference for setInterval
+        allContexts.push(this);
 
         // set options with speed, canvas reference and more
         this.options = options;
 
-        // local contexts
-        this.ctx = this.options.context;
-
-        // used for saving current angle position of rotation
-        this.angleIndex = 0;
-
     };
 
-
-    ContextLayer.prototype.iteration = 0;
 
     /*
      *
      */
-    ContextLayer.prototype.rotateCanvas = function(){
+    ContextLayer.prototype.iterationForAngle = 0;
 
-        this.ctx.save();
 
-        var halfOfCanvasSizeWidth = this.ctx.canvas.width/2;
-        var halfOfCanvasSizeHeight = this.ctx.canvas.height/2;
-        var newAngle = this.angleIndex*0.001;
+    /*
+     *
+     */
+    ContextLayer.prototype.iterationForBouncing = 0;
 
-        this.ctx.translate(halfOfCanvasSizeWidth, halfOfCanvasSizeHeight);
-        this.ctx.rotate(newAngle);
-        this.ctx.translate(-halfOfCanvasSizeWidth, -halfOfCanvasSizeHeight);
+
+    /*
+     *
+     */
+    ContextLayer.prototype.drawRotatedCanvas = function(){
+
+        context.save();
+
+        var halfOfCanvasWidth = context.canvas.width / 2;
+        var halfOfCanvasHeight = context.canvas.height / 2;
+        var newAngle = this.iterationForAngle * 0.0005;
+
+        context.translate(halfOfCanvasWidth, halfOfCanvasHeight);
+        context.rotate(newAngle);
+        context.translate(-halfOfCanvasWidth, -halfOfCanvasHeight);
 
         var howManyCircles =this.options.number;
         var radiusOfCircle = this.options.radius;
 
         this.createAnCircumference(radiusOfCircle, howManyCircles);
 
-        this.ctx.restore();
+        context.restore();
 
     };
 
@@ -54,12 +76,12 @@
      */
     ContextLayer.prototype.createAnCircumference = function(radius, circles){
 
-        var centerX = this.ctx.canvas.width/2;
-        var centerY = this.ctx.canvas.height/2;
+        var centerX = context.canvas.width/2;
+        var centerY = context.canvas.height/2;
 
         var alpha = ((2 * Math.PI) / circles);
 
-        var radFactor = Math.PI * ( Math.abs( 60 - this.iteration % 120 ) / 60 );
+        var radFactor = Math.PI * ( Math.abs( 60 - this.iterationForBouncing % 120 ) / 60 );
         var actualRadius = radius * ( (1 + 0.2 * Math.sin(radFactor) ) );
         for (var i=1; i<=circles; i++){
             var smallCircleX = centerX + ( actualRadius * Math.cos(alpha*i) );
@@ -75,31 +97,28 @@
      */
     ContextLayer.prototype.drawSimpleCircle = function(posX, posY, radius){
 
-        this.ctx.beginPath();
-        this.ctx.arc(posX, posY, radius, 0, 2*Math.PI, false);
-        this.ctx.closePath();
-        this.ctx.strokeStyle="white";
-        this.ctx.fillStyle = "white";
-        this.ctx.fill();
-        this.ctx.stroke();
+        context.beginPath();
+        context.arc(posX, posY, radius, 0, 2*Math.PI, false);
+        context.closePath();
+        context.strokeStyle="white";
+        context.fillStyle = "white";
+        context.fill();
+        context.stroke();
 
     };
 
 
-    var canvasElement = document.getElementById("b");
-    var context = canvasElement.getContext("2d");
-    var contexts = [];
+    /*
+     *
+     */
+    for (var dotsRound=0; dotsRound<=8; ++dotsRound){
 
-
-    for (var i=0; i<=8; i++){
-
-        var speedOf = i*5;
-        var numberOf = 46 - (i*5);
-        var radiusOf = 180 - (20*i);
+        var speedOf = dotsRound * 3;
+        var numberOf = 46 - (dotsRound * 5);
+        var radiusOf = 180 - (20 * dotsRound);
 
         new ContextLayer({
             speed : speedOf,
-            context : context,
             number : numberOf,
             radius : radiusOf
         });
@@ -107,19 +126,42 @@
     }
 
 
-    setInterval(function(){
+    /*
+     *
+     */
+    var animationRenderer = function(){
 
-        var widthCanvas  = context.canvas.width;
-        var heightCanvas = context.canvas.height;
+        // clear canvas context
+        context.clearRect(
+            0,
+            0,
+            context.canvas.width,
+            context.canvas.height
+        );
 
-        context.clearRect(0, 0, widthCanvas, heightCanvas);
-
-        for (var i=0, l=contexts.length; i<l; ++i){
-            contexts[i].iteration++;
-            var layer = contexts[ i ];
-            layer.angleIndex += layer.options.speed;
-            layer.rotateCanvas();
+        // loop for all layers
+        for (var i=0, howManyLayers=allContexts.length; i<howManyLayers; ++i){
+            var layer = allContexts[i];
+            layer.iterationForBouncing++;
+            layer.iterationForAngle += layer.options.speed;
+            layer.drawRotatedCanvas();
         }
 
-    }, 1000/60);
+    };
+
+
+    // setInterval(animationRenderer, 5);
+
+
+    /*
+     *
+     */
+    (function animationLoop(){
+        requestAnimFrame(animationLoop);
+        animationRenderer();
+    })();
+
+
+})();
+
 
