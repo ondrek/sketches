@@ -82,7 +82,7 @@
         var alpha = ((2 * Math.PI) / circles);
 
         var radFactor = Math.PI * ( Math.abs( 60 - this.iterationForBouncing % 120 ) / 60 );
-        var actualRadius = radius * ( (1 + 0.2 * Math.sin(radFactor) ) );
+        var actualRadius = radius * ( (1 + 0.1 * Math.sin(radFactor) ) );
         for (var i=1; i<=circles; i++){
             var smallCircleX = centerX + ( actualRadius * Math.cos(alpha*i) );
             var smallCircleY = centerY + ( actualRadius * Math.sin(alpha*i) );
@@ -113,9 +113,9 @@
      */
     for (var dotsRound=0; dotsRound<=8; ++dotsRound){
 
-        var speedOf = dotsRound * 3;
-        var numberOf = 46 - (dotsRound * 5);
-        var radiusOf = 180 - (20 * dotsRound);
+        var speedOf = dotsRound * 4;
+        var numberOf = 45 - (dotsRound * 5);
+        var radiusOf = 160 - (18 * dotsRound);
 
         new ContextLayer({
             speed : speedOf,
