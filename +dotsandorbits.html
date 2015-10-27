@@ -4,28 +4,34 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
 
     <style type="text/css">
-
-        canvas {
-            position: absolute;
-            left: 0;
-            top: 0;
-            background: transparent;
-        }
-
+        canvas { position: absolute; left: 0; top: 70px; background: transparent; }
+        body { font-family: monospace; color: #777; }
     </style>
 
-    <title>Waves</title>
+    <title>dots and orbits</title>
 
 </head><body>
 
     <canvas id="s" width="800px" height="600px"></canvas>
     <canvas id="d" width="800px" height="600px"></canvas>
 
+    <input type="radio" name="animation" value="19.4" checked="checked">&nbsp;wave
+    <input type="radio" name="animation" value="11.52">&nbsp;wind
+    <input type="radio" name="animation" value="12.2">&nbsp;ocean
+    <input type="radio" name="animation" value="12.3">&nbsp;touch
+    <input type="radio" name="animation" value="15.7">&nbsp;dance
+    <input type="radio" name="animation" value="15.84">&nbsp;blur<br>
+    <input type="radio" name="animation" value="18.06">&nbsp;push
+    <input type="radio" name="animation" value="18.99">&nbsp;lines
+    <input type="radio" name="animation" value="18.85">&nbsp;circle
+    <input type="radio" name="animation" value="20.42">&nbsp;together
+    <input type="radio" name="animation" value="21.87">&nbsp;sick
+
 
 
     <script>
 
-        (function () {
+        (function(){
 
 
             "use strict";
@@ -36,17 +42,24 @@
             var staticCtx = staticCanvas.getContext("2d");
             var dynamicCtx = dynamicCanvas.getContext("2d");
 
+            // default values
             var ORBIT_RADIUS = 38;
             var PLANET_RADIUS = 4.6;
             var EACH_OTHER_DELAY = 69.4;
             var GAP_BETWEEN_ORBITS = 36;
             var IN_THE_ROW = 24;
             var SPEED = 0.05;
-
-            var COLOR_PLANET = "#1E3B5C";
+            var COLOR_PLANET = "#E65544";
             var COLOR_ORBIT = "#ddd";
 
 
+            // radio buttons binding
+            var radios = document.getElementsByName("animation");
+            for (var i=radios.length; i--;) {
+                radios[i].onclick = function (e) {
+                    EACH_OTHER_DELAY = e.target.value;
+                };
+            }
 
 
             var refsToPlanetsCtxs = [];

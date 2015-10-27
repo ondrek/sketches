@@ -7,5 +7,5 @@
 **[spinning dots](https://rawgit.com/ondrek/sketches/master/+spinningdots.html)** (2014/08)
 ![](https://rawgit.com/ondrek/sketches/master/gifs/spinningdots.gif)
 
-**[dots and waves](https://rawgit.com/ondrek/sketches/master/+dotsandwaves.html)** (2015/10)
-![](https://rawgit.com/ondrek/sketches/master/gifs/dotsandwaves.gif)
+**[dots and waves](https://rawgit.com/ondrek/sketches/master/+dotsandorbits.html)** (2015/10)
+![](https://rawgit.com/ondrek/sketches/master/gifs/dotsandorbits.gif)
