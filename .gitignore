@@ -10,7 +10,3 @@
 Icon?
 ehthumbs.db
 Thumbs.db
-
-# mDown build folder
-
-%build/*

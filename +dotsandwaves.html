@@ -1,0 +1,140 @@
+<!DOCTYPE><html><head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+
+    <style type="text/css">
+
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: transparent;
+        }
+
+    </style>
+
+    <title>Waves</title>
+
+</head><body>
+
+    <canvas id="s" width="800px" height="600px"></canvas>
+    <canvas id="d" width="800px" height="600px"></canvas>
+
+
+
+    <script>
+
+        (function () {
+
+
+            "use strict";
+
+
+            var staticCanvas = document.getElementById("s");
+            var dynamicCanvas = document.getElementById("d");
+            var staticCtx = staticCanvas.getContext("2d");
+            var dynamicCtx = dynamicCanvas.getContext("2d");
+
+            var ORBIT_RADIUS = 38;
+            var PLANET_RADIUS = 4.6;
+            var EACH_OTHER_DELAY = 69.4;
+            var GAP_BETWEEN_ORBITS = 36;
+            var IN_THE_ROW = 24;
+            var SPEED = 0.05;
+
+            var COLOR_PLANET = "#1E3B5C";
+            var COLOR_ORBIT = "#ddd";
+
+
+
+
+            var refsToPlanetsCtxs = [];
+            var SolarSystem = function(opts){
+                refsToPlanetsCtxs.push(this);
+                this.opts = opts;
+                this.drawOrbit(opts);
+            };
+
+            SolarSystem.prototype.drawPlanet = function(pos){
+                dynamicCtx.beginPath();
+                dynamicCtx.arc(this.opts.x+pos.x, this.opts.y+pos.y, PLANET_RADIUS, 0, 2*Math.PI);
+                dynamicCtx.closePath();
+                dynamicCtx.fillStyle = COLOR_PLANET;
+                dynamicCtx.fill();
+            };
+
+            SolarSystem.prototype.drawOrbit = function(position){
+                staticCtx.beginPath();
+                staticCtx.arc(position.x, position.y, ORBIT_RADIUS, 0, 2*Math.PI);
+                staticCtx.closePath();
+                staticCtx.strokeStyle = COLOR_ORBIT;
+                staticCtx.stroke();
+            };
+
+
+
+            var clearCanvas = function(){
+                dynamicCtx.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
+            };
+
+
+
+            var justIterate = 0;
+            var clearAndRedrawPlanetsOfDelay = function(){
+
+                var MAXMIN_OF_SIN = ORBIT_RADIUS;
+                var MAXMIN_OF_COS = ORBIT_RADIUS;
+
+                clearCanvas();
+                justIterate += SPEED;
+
+                refsToPlanetsCtxs.forEach(function(ctx, delay){
+                    delay = justIterate+EACH_OTHER_DELAY*delay;
+                    var newCoords = { x: MAXMIN_OF_SIN*Math.cos(delay), y: MAXMIN_OF_COS*Math.sin(delay)};
+                    ctx.drawPlanet(newCoords);
+                });
+
+            };
+
+
+
+            var initSolarSystem = function(){
+
+                clearCanvas();
+
+                for (var dotsRound=1; dotsRound<440; ++dotsRound){
+                    var coordinates = {
+                        x: dotsRound % IN_THE_ROW * GAP_BETWEEN_ORBITS,
+                        y: ~~(dotsRound / IN_THE_ROW) * GAP_BETWEEN_ORBITS,
+                        delay: (dotsRound)
+                    };
+                    new SolarSystem(coordinates);
+                }
+
+            };
+
+
+
+            window.requestAnimFrame = (function() {
+                return window.requestAnimationFrame
+                        || window.webkitRequestAnimationFrame
+                        || window.mozRequestAnimationFrame
+                        || function (callback){ window.setTimeout(callback, 1000/60); };
+            })();
+            (function animationFrameLoop(){
+                requestAnimFrame(animationFrameLoop);
+                clearAndRedrawPlanetsOfDelay();
+            })();
+
+
+
+            initSolarSystem();
+
+
+
+        })();
+
+    </script>
+
+</body></html>

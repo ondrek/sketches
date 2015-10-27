@@ -1,6 +1,5 @@
-## canvas drawing testcases
+## html5 canvas sketches
 
- - [spinning dots](https://rawgit.com/ondrek/canvas-drawing/master/spinning-dots/index.html)
- - [bouncing circle](https://rawgit.com/ondrek/canvas-drawing/master/bouncing/index.html)
-
-;) by samuel ondrek, http://ondrek.com
+ - [boucing circle (2014/07)](https://rawgit.com/ondrek/sketches/master/+boucingcircle.html)
+ - [spinning dots (2014/08)](https://rawgit.com/ondrek/sketches/master/+spinningdots.html)
+ - [dots and waves (2015/10)](https://rawgit.com/ondrek/sketches/master/+dotsandwaves.html)
