@@ -1,5 +1,5 @@
 ## canvas sketches
-**html5 canvas in vanilla javascript without libraries**
+**html5 canvas animations (60fps) in vanilla javascript without libraries**
 <br>
 
 **[bouncing circle](https://rawgit.com/ondrek/sketches/master/+bouncingcircle.html)** (2014/07)<br>
