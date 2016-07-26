@@ -14,7 +14,7 @@
 
     <script>
         (function(el, current){
-            el.setAttribute("src", "sources/"+current+".js");
+            el.setAttribute("src", "src/"+current+".js");
             document.title = "ondrek/"+current;
             document.head.appendChild(el);
         })(document.createElement("script"), window.location.search.substr(1));
