@@ -1,4 +1,4 @@
-## canvas sketches
+## :green_apple: canvas sketches
 **html5 canvas animations (60fps) in vanilla javascript without libraries**
 <br>
 
