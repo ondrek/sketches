@@ -3,21 +3,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
 
-    <title>tescase</title>
+    <style>
+        html { overflow: hidden }
+    </style>
 
 </head><body>
 
-    <canvas id="b" width="470px" height="470px"></canvas>
+    <canvas id="b" width="5120px" height="2880px" ></canvas>
+
 
     <script>
-    // load javascript and css
-    [["script",".js","src"], ["link",".css","href"]].forEach(function(obj){
-        var el = document.createElement(obj[0]);
-        el.setAttribute(obj[2], "sources/"+window.location.search.substr(1)+obj[1]);
-        if(obj[0]==="link"){ el.setAttribute("rel", "stylesheet"); }
-        document.title = "ondrek/"+window.location.search.substr(1);
-        document.head.appendChild(el);
-    });
+        (function(el, current){
+            el.setAttribute("src", "sources/"+current+".js");
+            document.title = "ondrek/"+current;
+            document.head.appendChild(el);
+        })(document.createElement("script"), window.location.search.substr(1));
     </script>
 
 </body></html>
