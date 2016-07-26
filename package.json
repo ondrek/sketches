@@ -1,0 +1,10 @@
+{
+  "name": "sketches",
+  "version": "0.0.1",
+  "devDependencies": {
+    "babel-cli": "^6.11.4"
+  },
+  "scripts": {
+  +     "build": "babel src -d lib"
+  +   },
+}
