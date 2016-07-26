@@ -10,7 +10,14 @@
     <canvas id="b" width="470px" height="470px"></canvas>
 
     <script>
-
+    // load javascript and css
+    [["script",".js","src"], ["link",".css","href"]].forEach(function(obj){
+        var el = document.createElement(obj[0]);
+        el.setAttribute(obj[2], "sources/"+window.location.search.substr(1)+obj[1]);
+        if(obj[0]==="link"){ el.setAttribute("rel", "stylesheet"); }
+        document.title = "ondrek/"+window.location.search.substr(1);
+        document.head.appendChild(el);
+    });
     </script>
 
 </body></html>
