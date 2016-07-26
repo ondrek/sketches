@@ -3,10 +3,10 @@
 <br>
 
 **[bouncing circle](https://rawgit.com/ondrek/sketches/master/+bouncingcircle.html)** (2014/07)<br>
-![](https://rawgit.com/ondrek/sketches/master/sources/+bouncingcircle.gif)
+![](https://rawgit.com/ondrek/sketches/master/assets/+bouncingcircle.gif)
 
 **[spinning dots](https://rawgit.com/ondrek/sketches/master/+spinningdots.html)** (2014/08)<br>
-![](https://rawgit.com/ondrek/sketches/master/sources/+spinningdots.gif)
+![](https://rawgit.com/ondrek/sketches/master/assets/+spinningdots.gif)
 
 **[dots and waves](https://rawgit.com/ondrek/sketches/master/+dotsandorbits.html)** (2015/10)<br>
-![](https://rawgit.com/ondrek/sketches/master/sources/+dotsandorbits.gif)
+![](https://rawgit.com/ondrek/sketches/master/assets/+dotsandorbits.gif)
