@@ -1,4 +1,7 @@
-
+/*
+**
+**
+**/
 ;(function(){
 
 
@@ -6,16 +9,9 @@
 
 
     window.mirror = {};
-    mirror.ctx = document.getElementById("b").getContext("2d");
+    mirror.canvas = document.getElementById("b");
+    mirror.ctx = mirror.canvas.getContext("2d");
     mirror.pos = {x:0,y:0};
-
-})()
-
-
-
-;(function(){
-
-    "use strict";
 
     var getBrowserSize = function(){
         return {
@@ -24,49 +20,125 @@
         }
     };
 
-    var getQuadrants = function(){
-        return [
-            [0, 0], // top left
-            [getBrowserSize().width/2, 0], // top center
-            [getBrowserSize().width, 0], // top right
-            [0, getBrowserSize().height/2], // middle left
-            [0, getBrowserSize().height], // bottom left
-            [getBrowserSize().width/2, getBrowserSize().height], // bottom center
-            [getBrowserSize().width, getBrowserSize().height], // bottom right
-            [getBrowserSize().width, getBrowserSize().height/2] // middle right
-        ]
-    };
-
-
-    mirror.render = function(){
-
-        var center = {
-            x: getBrowserSize().width/2,
-            y: getBrowserSize().height/2
-        };
-
-        var draw = function(lines){
-            mirror.ctx.beginPath();
-            mirror.ctx.moveTo(center.x, center.y);
-            mirror.ctx.lineTo(lines[0], lines[1]);
-            mirror.ctx.stroke();
-        };
-
-        getQuadrants().forEach(function(el){
-            draw(el);
-        });
-
-        mirror.ctx.strokeStyle="black";
-        mirror.ctx.fillStyle = "black";
-        mirror.ctx.fill();
-        mirror.ctx.stroke();
-
+    mirror.getCenter = {
+        x: getBrowserSize().width/2,
+        y: getBrowserSize().height/2
     };
 
 })();
 
 
 
+/*
+**
+**
+**/
+;(function(){
+
+    "use strict";
+
+
+    mirror.ctx.lineWidth = 0.2;
+    mirror.ctx.strokeStyle="#cccccc";
+
+    for (var angle=0; angle<360; angle+=90/3){
+        var length = 5000;
+        var theAngle = (angle * Math.PI)/180; // degrees to radians
+        mirror.ctx.beginPath();
+        mirror.ctx.moveTo(mirror.getCenter.x, mirror.getCenter.y);
+        mirror.ctx.lineTo(mirror.getCenter.x + length * Math.cos(theAngle), mirror.getCenter.y + length * Math.sin(theAngle));
+        mirror.ctx.stroke();
+    }
+
+})();
+
+
+
+/*
+**
+**
+**/
+;(function(){
+
+    "use strict";
+
+    mirror.canvas.onmousemove = function(e){
+
+        if (!mirror.canvas.isDrawing) {
+            return;
+        }
+
+        mirror.mirroring(
+            e.pageX-this.offsetLeft,
+            e.pageY-this.offsetTop
+        );
+
+        mirror.ctx.beginPath();
+        mirror.ctx.moveTo(e.pageX-this.offsetLeft, e.pageY-this.offsetTop);
+        mirror.ctx.arc(e.pageX-this.offsetLeft, e.pageY-this.offsetTop, 2, 0, Math.PI*2, false);
+        mirror.ctx.fill();
+
+    };
+
+    mirror.canvas.onmousedown = function(){
+        mirror.canvas.isDrawing = true;
+    };
+
+    mirror.canvas.onmouseup = function(){
+        mirror.canvas.isDrawing = false;
+    };
+
+
+})();
+
+
+
+/*
+**
+**
+**/
+;(function(){
+
+    "use strict";
+
+    var increase = 0;
+
+
+    mirror.mirroring = function(posX, posY){
+
+        if (increase>11) { return; }
+
+        increase++;
+
+        var distance = 100;
+        var by = 6;
+
+        var x = posX+ distance* Math.cos(increase*Math.PI/by);
+        var y = posY+ distance* Math.sin(increase*Math.PI/by);
+
+        mirror.ctx.fillCircle = function(x, y){
+            this.beginPath();
+            this.arc(mirror.getCenter.x+x, mirror.getCenter.y+y, 2, 1, Math.PI*2, false);
+            this.fill();
+        };
+
+        mirror.ctx.fillCircle(x,y);
+
+        mirror.mirroring(posX, posY);
+
+    };
+
+    mirror.mirroring(0, 0);
+
+
+})();
+
+
+
+/*
+**
+**
+**/
 ;(function(){
 
     "use strict";
@@ -78,10 +150,12 @@
             function(callback){ window.setTimeout(callback, 1000 / 60); };
     })();
 
+
+
     (function animationLoop(){
-        setTimeout(animationLoop, 400);
+        setTimeout(animationLoop, 800);
         //requestAnimFrame(animationLoop);
-        mirror.render();
+
     })();
 
 })();
