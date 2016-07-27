@@ -1,6 +1,5 @@
 /*
 **
-**
 **/
 ;(function(){
 
@@ -30,8 +29,7 @@
 
 
 /*
-**
-**
+**  drawing the background of the whole image
 **/
 ;(function(){
 
@@ -55,7 +53,6 @@
 
 
 /*
-**
 **
 **/
 ;(function(){
@@ -101,61 +98,75 @@
 
     "use strict";
 
-    var increase = 0;
 
 
     mirror.mirroring = function(posX, posY){
 
-        if (increase>11) { return; }
+        // posX -= mirror.getCenter.x;
+        // posY -= mirror.getCenter.y;
+        // console.info("center points:", posX-mirror.getCenter.x, posY-mirror.getCenter.y);
 
-        increase++;
 
-        var distance = 100;
-        var by = 6;
+        //if (increase>11) { return; } else { increase++; }
 
-        var x = posX+ distance* Math.cos(increase*Math.PI/by);
-        var y = posY+ distance* Math.sin(increase*Math.PI/by);
+        console.info(
+            "absolute",
+            Math.abs(posX-mirror.getCenter.x),
+            Math.abs(posY-mirror.getCenter.y)
+        );
 
-        mirror.ctx.fillCircle = function(x, y){
-            this.beginPath();
-            this.arc(mirror.getCenter.x+x, mirror.getCenter.y+y, 2, 1, Math.PI*2, false);
-            this.fill();
-        };
 
-        mirror.ctx.fillCircle(x,y);
 
-        mirror.mirroring(posX, posY);
+        for (var i=0; i<12; i++){
+
+            var distance = 100;
+            var by = 6;
+
+            var x = posX+ distance* Math.cos(i*Math.PI/by);
+            var y = posY+ distance* Math.sin(i*Math.PI/by);
+
+            mirror.ctx.fillCircle = function(x, y){
+                this.beginPath();
+                this.arc(x, y, 2, 1, Math.PI*2, false);
+                this.fill();
+            };
+
+            mirror.ctx.fillCircle(x,y);
+
+        }
+
+
+
 
     };
 
-    mirror.mirroring(0, 0);
+    //mirror.mirroring(0, 0);
 
 
 })();
 
 
-
-/*
-**
-**
-**/
-;(function(){
-
-    "use strict";
-
-    window.requestAnimFrame = (function(){
-        return window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            function(callback){ window.setTimeout(callback, 1000 / 60); };
-    })();
-
-
-
-    (function animationLoop(){
-        setTimeout(animationLoop, 800);
-        //requestAnimFrame(animationLoop);
-
-    })();
-
-})();
+//
+// /*
+// **
+// **/
+// ;(function(){
+//
+//     "use strict";
+//
+//     window.requestAnimFrame = (function(){
+//         return window.requestAnimationFrame ||
+//             window.webkitRequestAnimationFrame ||
+//             window.mozRequestAnimationFrame ||
+//             function(callback){ window.setTimeout(callback, 1000 / 60); };
+//     })();
+//
+//
+//
+//     (function animationLoop(){
+//         setTimeout(animationLoop, 800);
+//         //requestAnimFrame(animationLoop);
+//
+//     })();
+//
+// })();
