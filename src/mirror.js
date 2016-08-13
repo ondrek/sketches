@@ -14,8 +14,8 @@
 
     var getBrowserSize = function(){
         return {
-            width: window.innerWidth || document.body.clientWidth,
-            height: window.innerHeight || document.body.clientHeight
+            width: (window.innerWidth>=window.innerHeight) ? window.innerHeight : window.innerWidth,
+            height: (window.innerWidth>=window.innerHeight) ? window.innerHeight : window.innerWidth
         }
     };
 
@@ -23,6 +23,8 @@
         x: getBrowserSize().width/2,
         y: getBrowserSize().height/2
     };
+
+    console.log(mirror.getCenter)
 
 })();
 
@@ -37,7 +39,7 @@
 
 
     mirror.ctx.lineWidth = 0.2;
-    mirror.ctx.strokeStyle="#cccccc";
+    mirror.ctx.strokeStyle="#333333";
 
     for (var angle=0; angle<360; angle+=90/3){
         var length = 5000;
@@ -102,45 +104,56 @@
 
     mirror.mirroring = function(posX, posY){
 
-        // posX -= mirror.getCenter.x;
-        // posY -= mirror.getCenter.y;
-        // console.info("center points:", posX-mirror.getCenter.x, posY-mirror.getCenter.y);
+        posX -= mirror.getCenter.x;
+        posY -= mirror.getCenter.y;
 
-
-        //if (increase>11) { return; } else { increase++; }
 
         console.info(
-            "absolute",
-            Math.abs(posX-mirror.getCenter.x),
-            Math.abs(posY-mirror.getCenter.y)
+            "position [",
+            posX,
+            posY,
+            "]"
         );
 
 
+        // this fn should draw 12 points around the space
+        // the idea is to create a circle and move it
+        mirror.ctx.fillCircle = function(fi, dStart, dEnd){
+            var rStart = (dStart * Math.PI)/180; // radians
+            var rEnd = (dEnd * Math.PI)/180; // radians
+            this.beginPath();
+            console.info(rStart, 2*Math.PI-rEnd);
+            this.arc(mirror.getCenter.x,  mirror.getCenter.y, 70, rStart, 2*Math.PI-rEnd, true);
+            this.lineWidth =2;
+            this.stroke();
 
-        for (var i=0; i<12; i++){
+        };
 
-            var distance = 100;
-            var by = 6;
+        mirror.ctx.fillCircle(100, 10, 20);
 
-            var x = posX+ distance* Math.cos(i*Math.PI/by);
-            var y = posY+ distance* Math.sin(i*Math.PI/by);
-
-            mirror.ctx.fillCircle = function(x, y){
-                this.beginPath();
-                this.arc(x, y, 2, 1, Math.PI*2, false);
-                this.fill();
-            };
-
-            mirror.ctx.fillCircle(x,y);
-
-        }
+        //
+        // for (var i=0; i<12; i++){
+        //
+        //     var distance = 100;
+        //     var by = 6;
+        //
+        //     var x = posX+ distance* Math.cos(i*Math.PI/by);
+        //     var y = posY+ distance* Math.sin(i*Math.PI/by);
+        //
+        //     mirror.ctx.fillCircle = function(x, y){
+        //         this.beginPath();
+        //         this.arc(x, y, 2, 1, Math.PI*2, false);
+        //         this.fill();
+        //     };
+        //
+        //     mirror.ctx.fillCircle(x,y);
+        //
+        // }
 
 
 
 
     };
-
-    //mirror.mirroring(0, 0);
 
 
 })();

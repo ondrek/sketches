@@ -5,12 +5,20 @@
 
     <style>
         html { overflow: hidden }
+        #b { position: absolute; top: 20px; left: 20px; background: rgba(255, 0, 0, 0.03); }
     </style>
 
 </head><body>
 
-    <canvas id="b" style="position:absolute; top:0; left:0;" width="5120px" height="2880px" ></canvas>
+    <canvas id="b"></canvas>
 
+    <script>
+        (function(){
+            var canvas = document.querySelector("#b");
+            canvas.width = (window.innerWidth>=window.innerHeight) ? window.innerHeight : window.innerWidth + "px";
+            canvas.height = (window.innerWidth>=window.innerHeight) ? window.innerHeight : window.innerWidth + "px";
+        })();
+    </script>
 
     <script>
         (function(el, current){
